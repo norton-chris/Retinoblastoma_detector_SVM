@@ -3,8 +3,7 @@ import cv2
 import os
 from sklearn import svm
 
-#images are not exactly the same size, is 100 good for the width and height
-#or is there a way to get the width and height of each image
+#images are not exactly the same size, is 100 good for height and 50 for the width
 w = 50
 h = 100
 c = 3
@@ -22,14 +21,13 @@ with open('filename.txt', 'r') as f:
         img = cv2.imread(os.path.join("Training",p))
         print os.path.join("Training",p)
         cv2.imshow('Training before resize', img)
-        cv2.waitKey(1)  #change this numbers for the speed
+        cv2.waitKey(.1)  #change this numbers for the speed
         nimg = cv2.resize(img,(h,w))
         cv2.imshow('Training after resize', nimg)
-        cv2.waitKey(1)  #change this numbers for the speed
+        cv2.waitKey(.1)  #change this numbers for the speed
         X_data[index] = nimg.flatten()
         index += 1
 
-#start of svm, change C value to get best result
 best = 0
 bestc = 1
 for i in xrange(0, 7):
@@ -50,8 +48,7 @@ bestsvm = svm.SVC(kernel='linear', C=bestc) #change this C value
 bestsvm.fit(X_data, Y_data)
 
 
-path = "/Users/Chris/Desktop/senior_thesis/data/Test"
-#for loop reading images
+path = "Test" #if this doesn't work than put the entire path name in (example: /Users/NAME/Desktop/Test )
 index = 0
 for i in os.listdir(path):
     test_img = cv2.imread(os.path.join("Test",i))
@@ -67,7 +64,8 @@ for i in os.listdir(path):
 for t in xrange(Test_data.shape[0]):
     print t
     print "prediction",bestsvm.predict(Test_data[t].reshape(1,-1))
-    
+
+'''    
 correct = 0
 with open('accuracy.txt', 'r') as f:
     index = 0
@@ -86,3 +84,4 @@ with open('accuracy.txt', 'r') as f:
 accuracy = float(correct) / index + 1
 print "accuracy",accuracy
 cv2.destroyAllWindows()
+'''
