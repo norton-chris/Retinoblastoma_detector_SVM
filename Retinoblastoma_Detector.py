@@ -4,30 +4,33 @@ import os
 from sklearn import svm
 
 #images are not exactly the same size, is 100 good for height and 50 for the width
-w = 50
-h = 100
+w = 50 #width of image to be rezised to
+h = 100 #height of image to be resized to
 c = 3
 
-X_data = np.zeros((100, w * h * c), dtype=np.uint8)
-Test_data = np.zeros((9, w * h * c), dtype=np.uint8)
-Y_data = np.zeros((100,), dtype=np.uint8)
+NumOfImagesToTest = 9 #change this number to the amount of pictures you have in the test folder
+
+X_data = np.zeros((100, w * h * c), dtype=np.uint8) #first number is how many training images there are
+Test_data = np.zeros((NumOfImagesToTest, w * h * c), dtype=np.uint8)
+Y_data = np.zeros((100,), dtype=np.uint8) #first number is how many training images there are
 
 with open('filename.txt', 'r') as f:
     index = 0
     for r in f:
         p, c = r.strip().split()
-        #print len(r.strip().split())
         Y_data[index] = int(c)
         img = cv2.imread(os.path.join("Training",p))
         print os.path.join("Training",p)
         cv2.imshow('Training before resize', img)
-        cv2.waitKey(.1)  #change this numbers for the speed
+        cv2.waitKey(1)  #change this numbers for the speed
         nimg = cv2.resize(img,(h,w))
         cv2.imshow('Training after resize', nimg)
-        cv2.waitKey(.1)  #change this numbers for the speed
+        cv2.waitKey(1)  #change this numbers for the speed
         X_data[index] = nimg.flatten()
         index += 1
 
+        
+#this loop checks for the best c weight value
 best = 0
 bestc = 1
 for i in xrange(0, 7):
@@ -44,7 +47,7 @@ for i in xrange(0, 7):
         best = correct
         bestc = 10**i
 
-bestsvm = svm.SVC(kernel='linear', C=bestc) #change this C value
+bestsvm = svm.SVC(kernel='linear', C=bestc)
 bestsvm.fit(X_data, Y_data)
 
 
@@ -77,11 +80,10 @@ with open('accuracy.txt', 'r') as f:
         if int(c) == int(prediction):
             correct += 1
         else:
-            print "wrong"
+            print "incorrect prediction for", i
         index += 1
         
-
-accuracy = float(correct) / index + 1
-print "accuracy",accuracy
+accuracy = (float(correct) / (index))*100
+print "accuracy:",accuracy,"%"
 cv2.destroyAllWindows()
 '''
