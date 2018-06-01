@@ -3,6 +3,16 @@ This repository contains the SVM program that can detect Retinoblastoma when com
 
 I have tested this using anaconda 2.
 
+Set up instructions:
+Download anaconda prompt 2 and cv2
+follow instructions on http://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_setup/py_setup_in_windows/py_setup_in_windows.html
+setting up the program is kind of a pain, but its pretty simple to use when you get it set up
+
+How to use the program:
+On Anaconda prompt change directories(using "cd foldername")
+When you are in the correct folder type "python Retinoblastoma_Detector.py" or any of the other program names.
+If it doesn't work, look at the code. I have comments saying what to change so it shouldn't be to difficult even if you done know how to code. It will probably be something about missing an image file, and in the code just change image filename to the one you have.
+
 What the program is doing?
 First trains the neural network with the images I found on google images.
 then finds the best C value
